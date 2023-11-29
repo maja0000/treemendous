@@ -16,30 +16,77 @@ html {
 
 .tree-list {
   display: flex;
-  background-color: red;
   flex-wrap: wrap;
   justify-content: space-around;
   list-style-type: none;
 }
 
 .tree-card {
-  width: calc(100% - 1.25rem); /* 20px */
-  max-width: 18.75rem; /* 300px */
+  width: 20rem;
   margin: 1.25rem;
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 0.5rem; /* 8px */
   overflow: hidden;
+  padding: 1rem
 }
+
+.tree-card-header {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  background: none;
+  border: none;
+  cursor: pointer;
+
+}
+
+.tree-card-header div{
+ display: flex;
+ align-items: center
+}
+
+.tree-card-name {
+  display: flex;
+  flex-direction: column;
+  margin-left: 1rem;
+}
+
+.tree-card-name p {
+  margin: 0
+}
+
+.tree-card-name h1 {
+  margin: 0
+}
+
+.toggle-button {
+  background: none;
+  border: none;
+  width: 100%
+}
+
+.tagline {
+  text-transform: uppercase;
+  color: #00800A;
+  font-weight: 600
+}
+
+h1 {
+  font-size: 1.25rem
+}
+
 
 @media (min-width: 834px) {
   .tree-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(18.75rem, 1fr));
-    gap: 1.25rem; /* 20px */
+    gap: 1.25rem;
   }
 
   .tree-card {
-    width: 100%;
+  width: 18rem;
+
   }
 }

@@ -1,5 +1,5 @@
 'use client';
-import TreeList from '../components/TreeList';
+import TreeList from './components/TreeList';
 
 import {
   QueryClient,
