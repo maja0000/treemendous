@@ -1,5 +1,6 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
-import Image from 'next/image';
+import { FC } from 'react';
+import TreeCard from './TreeCard';
 
 type TreeType = {
   id: number;
@@ -15,7 +16,7 @@ type ApiResponse = {
   trees: TreeType[];
 };
 
-function TreeList() {
+const TreeList: FC = () => {
   const { isPending, error, data }: UseQueryResult<ApiResponse> =
     useQuery({
       queryKey: ['repoData'],
@@ -39,19 +40,11 @@ function TreeList() {
     <ul>
       {trees.map((tree: TreeType) => (
         <li key={tree.id}>
-          {tree.name}
-          {tree.image && (
-            <Image
-              src={tree.image.src}
-              width={500}
-              height={500}
-              alt={tree.image.alt}
-            />
-          )}
+          <TreeCard {...tree} />
         </li>
       ))}
     </ul>
   );
-}
+};
 
 export default TreeList;
