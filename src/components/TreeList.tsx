@@ -1,6 +1,11 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
 import TreeCard from './TreeCard';
+import {
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from 'next/navigation';
 
 type TreeType = {
   id: number;
@@ -17,6 +22,35 @@ type ApiResponse = {
 };
 
 const TreeList: FC = () => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const currentTreeId = searchParams.get('treeId');
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams);
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
+
+  const handleClick = (treeId: number) => {
+    const selectedTreeKey = treeId.toString();
+
+    if (selectedTreeKey === currentTreeId) {
+      // If the new treeId is the same as the current one, remove the query parameter
+      router.push(pathname);
+    } else {
+      router.push(
+        pathname + '?' + createQueryString('treeId', selectedTreeKey)
+      );
+    }
+  };
+
   const { isPending, error, data }: UseQueryResult<ApiResponse> =
     useQuery({
       queryKey: ['repoData'],
@@ -37,10 +71,14 @@ const TreeList: FC = () => {
   const { trees } = data;
 
   return (
-    <ul>
+    <ul className="tree-list">
       {trees.map((tree: TreeType) => (
         <li key={tree.id}>
-          <TreeCard {...tree} />
+          <TreeCard
+            {...tree}
+            isSelected={currentTreeId === tree.id.toString()}
+            onClick={() => handleClick(tree.id)}
+          />
         </li>
       ))}
     </ul>

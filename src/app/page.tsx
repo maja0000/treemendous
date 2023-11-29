@@ -1,6 +1,6 @@
 'use client';
-
 import TreeList from '../components/TreeList';
+
 import {
   QueryClient,
   QueryClientProvider,
@@ -10,7 +10,7 @@ const queryClient = new QueryClient();
 
 export default function Home() {
   return (
-    <div>
+    <div className="container">
       <QueryClientProvider client={queryClient}>
         <TreeList />
       </QueryClientProvider>
