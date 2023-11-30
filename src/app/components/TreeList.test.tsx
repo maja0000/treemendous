@@ -83,7 +83,35 @@ describe('TreeList', () => {
     });
   });
 
-  // test('can select a tree and show its picture', async () => {
+  test('pre-selected tree shows picture', async () => {
+    const routes = [
+      {
+        path: '/',
+        element: <TreeList />,
+      },
+    ];
+    const router = createMemoryRouter(routes, {
+      initialEntries: ['/?treeId=1'],
+    });
+    const user = userEvent.setup();
+
+    render(
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    );
+
+    await waitFor(() => screen.getByText('Baobab'));
+    await waitFor(() => {
+      screen.getByText('Hello');
+      const image = screen.getByAltText(
+        'A large African baobab tree with bright green leaves against a soft blue sky.'
+      );
+      expect(image).toBeInTheDocument();
+    });
+  });
+
+  // test('can select a tree and show picture', async () => {
   //   const routes = [
   //     {
   //       path: '/',
@@ -119,4 +147,5 @@ describe('TreeList', () => {
   //     expect(image).toBeInTheDocument();
   //   });
   // });
+  // test('clicking on the same tree hides it', async () => {});
 });
