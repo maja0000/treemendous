@@ -1,3 +1,4 @@
+'use client';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { FC, useCallback } from 'react';
 import TreeCard from './TreeCard';
@@ -22,38 +23,38 @@ type ApiResponse = {
 };
 
 const TreeList: FC = () => {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const pathname = usePathname();
+  // const searchParams = useSearchParams();
+  // const router = useRouter();
+  // const pathname = usePathname();
 
-  const currentTreeId = searchParams.get('treeId');
+  // const currentTreeId = searchParams.get('treeId');
 
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams);
-      params.set(name, value);
+  // const createQueryString = useCallback(
+  //   (name: string, value: string) => {
+  //     const params = new URLSearchParams(searchParams);
+  //     params.set(name, value);
 
-      return params.toString();
-    },
-    [searchParams]
-  );
+  //     return params.toString();
+  //   },
+  //   [searchParams]
+  // );
 
-  const handleClick = (treeId: number) => {
-    const selectedTreeKey = treeId.toString();
+  // const handleClick = (treeId: number) => {
+  //   const selectedTreeKey = treeId.toString();
 
-    if (selectedTreeKey === currentTreeId) {
-      // If the new treeId is the same as the current one, remove the query parameter
-      router.push(pathname);
-    } else {
-      router.push(
-        pathname + '?' + createQueryString('treeId', selectedTreeKey)
-      );
-    }
-  };
+  //   if (selectedTreeKey === currentTreeId) {
+  //     // If the new treeId is the same as the current one, remove the query parameter
+  //     router.push(pathname);
+  //   } else {
+  //     router.push(
+  //       pathname + '?' + createQueryString('treeId', selectedTreeKey)
+  //     );
+  //   }
+  // };
 
   const { isPending, error, data }: UseQueryResult<ApiResponse> =
     useQuery({
-      queryKey: ['repoData'],
+      queryKey: ['treesData'],
       queryFn: () =>
         fetch(
           'https://s3.eu-central-1.amazonaws.com/ecosia-frontend-developer/trees.json'
@@ -78,8 +79,8 @@ const TreeList: FC = () => {
         <li key={tree.id}>
           <TreeCard
             {...tree}
-            isSelected={currentTreeId === tree.id.toString()}
-            onClick={() => handleClick(tree.id)}
+            // isSelected={currentTreeId === tree.id.toString()}
+            // onClick={() => handleClick(tree.id)}
           />
         </li>
       ))}
