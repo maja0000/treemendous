@@ -25,7 +25,7 @@ const TreeCard: FC<TreeCardProps> = ({
   return (
     <div className="tree-card">
       <button className="tree-card-header" onClick={onClick}>
-        <div>
+        <div className="tree-card-header-content">
           <Image src={treeIcon} alt="Tree icon" />
           <div className="tree-card-name">
             <p className="tagline">{species_name}</p>

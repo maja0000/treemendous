@@ -39,18 +39,17 @@ html {
   background: none;
   border: none;
   cursor: pointer;
-
 }
 
-.tree-card-header div{
- display: flex;
- align-items: center
+.tree-card-header-content {
+  display: flex;
+  align-items: center;
 }
 
 .tree-card-name {
-  display: flex;
   flex-direction: column;
   margin-left: 1rem;
+  text-align: left;
 }
 
 .tree-card-name p {
@@ -86,7 +85,6 @@ h1 {
   }
 
   .tree-card {
-  width: 18rem;
-
+    width: 18rem;
   }
 }
