@@ -72,6 +72,8 @@ const TreeList: FC = () => {
 
   return (
     <ul className="tree-list">
+      {/* TODO: delete */}
+      List of our trees!
       {trees.map((tree: TreeType) => (
         <li key={tree.id}>
           <TreeCard
