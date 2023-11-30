@@ -71,7 +71,6 @@ const TreeList: FC = () => {
 
   return (
     <ul className="tree-list">
-      List of our trees!
       {trees.map((tree: TreeType) => (
         <li key={tree.id}>
           <TreeCard

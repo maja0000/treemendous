@@ -28,7 +28,11 @@ const TreeCard: FC<TreeCardProps> = ({
 
   return (
     <div className="tree-card" style={{ border: borderStyle }}>
-      <button className="tree-card-header" onClick={onClick}>
+      <button
+        className="tree-card-header"
+        data-testid={`tree-card-button-${name}`}
+        onClick={onClick}
+      >
         <div className="tree-card-header-content">
           <Image src={treeIcon} alt="Tree icon" />
           <div className="tree-card-name">
@@ -44,13 +48,17 @@ const TreeCard: FC<TreeCardProps> = ({
         />
       </button>
       {image && isSelected && (
-        <Image
-          src={image.src}
-          width={290}
-          height={290}
-          alt={image.alt}
-          style={{ marginTop: '1rem' }}
-        />
+        <>
+          <Image
+            src={image.src}
+            width={290}
+            height={290}
+            alt={image.alt}
+            style={{ marginTop: '1rem' }}
+          />
+          {/* Delete */}
+          Hello
+        </>
       )}
     </div>
   );
