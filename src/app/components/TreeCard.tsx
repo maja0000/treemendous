@@ -22,8 +22,12 @@ const TreeCard: FC<TreeCardProps> = ({
   isSelected,
   onClick,
 }) => {
+  const borderStyle = isSelected
+    ? '1px solid #00800A'
+    : '1px solid transparent';
+
   return (
-    <div className="tree-card">
+    <div className="tree-card" style={{ border: borderStyle }}>
       <button className="tree-card-header" onClick={onClick}>
         <div className="tree-card-header-content">
           <Image src={treeIcon} alt="Tree icon" />
