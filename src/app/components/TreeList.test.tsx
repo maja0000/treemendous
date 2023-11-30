@@ -6,6 +6,7 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query';
 import TreeList from './TreeList';
+import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 
 const apiResponce = {
   trees: [
@@ -33,8 +34,7 @@ const apiResponce = {
 global.fetch = jest.fn(
   () =>
     Promise.resolve({
-      json: () =>
-        Promise.resolve({ trees: [{ id: 1, name: 'Oak' }] }),
+      json: () => Promise.resolve(apiResponce),
     }) as unknown as Promise<Response>
 );
 
@@ -42,15 +42,22 @@ const queryClient = new QueryClient();
 
 describe('TreeList', () => {
   test('renders TreeList component', async () => {
+    const routes = [
+      {
+        path: '/',
+        element: <TreeList />,
+      },
+    ];
+    const router = createMemoryRouter(routes, {
+      initialEntries: ['/'],
+    });
     render(
       <QueryClientProvider client={queryClient}>
-        <TreeList />
+        <RouterProvider router={router} />
       </QueryClientProvider>
     );
 
-    await waitFor(() => screen.getByText('Oak'));
-
-    expect(screen.getByText('Oak')).toBeInTheDocument();
+    await waitFor(() => screen.getByText('Baobab'));
     expect(
       screen.getByText('List of our trees!')
     ).toBeInTheDocument();

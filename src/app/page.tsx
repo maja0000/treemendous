@@ -1,5 +1,6 @@
 'use client';
 import TreeList from './components/TreeList';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import {
   QueryClient,
@@ -12,7 +13,9 @@ export default function Home() {
   return (
     <div className="container">
       <QueryClientProvider client={queryClient}>
-        <TreeList />
+        <Router>
+          <TreeList />
+        </Router>
       </QueryClientProvider>
     </div>
   );

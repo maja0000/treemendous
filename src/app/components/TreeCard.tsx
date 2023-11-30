@@ -11,9 +11,8 @@ type TreeCardProps = {
     src: string;
     alt: string;
   };
-  // TODO: remove opionality after tests are fixed
-  isSelected?: boolean;
-  onClick?: () => void;
+  isSelected: boolean;
+  onClick: () => void;
 };
 
 const TreeCard: FC<TreeCardProps> = ({
