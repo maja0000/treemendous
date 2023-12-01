@@ -56,8 +56,6 @@ const TreeCard: FC<TreeCardProps> = ({
             alt={image.alt}
             style={{ marginTop: '1rem' }}
           />
-          {/* Delete */}
-          Hello
         </>
       )}
     </div>

@@ -1,18 +1,13 @@
-import '@testing-library/jest-dom';
-import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
 import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
-import TreeList from './TreeList';
-import {
-  createMemoryRouter,
-  RouterProvider,
-  useNavigate,
-} from 'react-router-dom';
-
+import '@testing-library/jest-dom';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React from 'react';
+import { RouterProvider, createMemoryRouter } from 'react-router-dom';
+import TreeList from './TreeList';
 
 const apiResponce = {
   trees: [
@@ -37,18 +32,15 @@ const apiResponce = {
   ],
 };
 
-jest.mock('react-router-dom', () => {
-  const originalModule = jest.requireActual('react-router-dom');
-  return {
-    ...originalModule,
-    useNavigate: jest.fn(),
-  };
-});
-const mockedUsedNavigate = jest.fn();
+const mockUseNavigate = jest.fn();
 
 jest.mock('react-router-dom', () => ({
-  ...(jest.requireActual('react-router-dom') as any),
-  useNavigate: () => mockedUsedNavigate,
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => mockUseNavigate,
+  useLocation: () => ({
+    pathname: '/?treeId=1',
+    search: '?treeId=1',
+  }),
 }));
 
 global.fetch = jest.fn(
@@ -93,7 +85,7 @@ describe('TreeList', () => {
     const router = createMemoryRouter(routes, {
       initialEntries: ['/?treeId=1'],
     });
-    const user = userEvent.setup();
+    userEvent.setup();
 
     render(
       <QueryClientProvider client={queryClient}>
@@ -103,7 +95,6 @@ describe('TreeList', () => {
 
     await waitFor(() => screen.getByText('Baobab'));
     await waitFor(() => {
-      screen.getByText('Hello');
       const image = screen.getByAltText(
         'A large African baobab tree with bright green leaves against a soft blue sky.'
       );
@@ -111,41 +102,36 @@ describe('TreeList', () => {
     });
   });
 
-  // test('can select a tree and show picture', async () => {
-  //   const routes = [
-  //     {
-  //       path: '/',
-  //       element: <TreeList />,
-  //     },
-  //   ];
-  //   const router = createMemoryRouter(routes, {
-  //     initialEntries: ['/'],
-  //   });
-  //   const user = userEvent.setup();
+  test('can select a tree and show picture', async () => {
+    const routes = [
+      {
+        path: '/',
+        element: <TreeList />,
+      },
+    ];
+    const router = createMemoryRouter(routes, {
+      initialEntries: ['/'],
+    });
+    const user = userEvent.setup();
 
-  //   render(
-  //     <QueryClientProvider client={queryClient}>
-  //       <RouterProvider router={router} />
-  //     </QueryClientProvider>
-  //   );
+    render(
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    );
 
-  //   await waitFor(() => screen.getByText('Baobab'));
-  //   const button = screen.getByTestId('tree-card-button-Baobab');
+    await waitFor(() => screen.getByText('Baobab'));
+    const button = screen.getByTestId('tree-card-button-Baobab');
 
-  //   const mockNavigate = jest.fn();
-  //   (useNavigate as jest.Mock).mockReturnValue(mockNavigate);
+    await user.click(button);
 
-  //   await user.click(button);
+    expect(mockUseNavigate).toHaveBeenCalledWith('/?treeId=1');
 
-  //   expect(mockNavigate).toHaveBeenCalledWith('/?treeId=1');
-
-  //   await waitFor(() => {
-  //     screen.getByText('Hello');
-  //     const image = screen.getByAltText(
-  //       'A large African baobab tree with bright green leaves against a soft blue sky.'
-  //     );
-  //     expect(image).toBeInTheDocument();
-  //   });
-  // });
-  // test('clicking on the same tree hides it', async () => {});
+    await waitFor(() => {
+      const image = screen.getByAltText(
+        'A large African baobab tree with bright green leaves against a soft blue sky.'
+      );
+      expect(image).toBeInTheDocument();
+    });
+  });
 });
