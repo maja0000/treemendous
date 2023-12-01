@@ -2,7 +2,6 @@ import { FC } from 'react';
 import Image from 'next/image';
 import treeIcon from '../assets/tree-icon.svg';
 import openIcon from '../assets/close-icon.svg';
-import closeIcon from '../assets/open-icon.svg';
 
 type TreeCardProps = {
   name: string;
@@ -25,6 +24,9 @@ const TreeCard: FC<TreeCardProps> = ({
   const borderStyle = isSelected
     ? '1px solid #00800A'
     : '1px solid transparent';
+  const toggleIconTransformStyle = isSelected
+    ? 'rotate(180deg)'
+    : 'rotate(0)';
 
   return (
     <div className="tree-card" style={{ border: borderStyle }}>
@@ -43,7 +45,11 @@ const TreeCard: FC<TreeCardProps> = ({
 
         <Image
           className="toggle-icon"
-          src={isSelected ? closeIcon : openIcon}
+          style={{
+            transform: toggleIconTransformStyle,
+            transition: '0.2s',
+          }}
+          src={openIcon}
           alt="Togle icon"
         />
       </button>
